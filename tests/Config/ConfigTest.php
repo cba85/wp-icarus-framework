@@ -2,9 +2,8 @@
 
 namespace Icarus\Tests\Config;
 
-use Exception;
 use PHPUnit\Framework\TestCase;
-use Icarus\Config\Config;
+use Icarus\Support\Facades\Config;
 
 final class ConfigTest extends TestCase
 {

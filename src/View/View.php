@@ -14,11 +14,34 @@ class View
      *
      * @var string
      */
-    public static $path;
+    protected $path;
 
-    public static function getFile($filename)
+    /**
+     * Get path of view files
+     *
+     * @return string
+     */
+    public function getPath()
     {
-        $file = static::$path . $filename . '.php';
+        return $this->path;
+    }
+
+    /**
+     * Set view files path
+     *
+     * @param string $path
+     * @return View
+     */
+    public function setPath(string $path)
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    public function getFile(string $filename)
+    {
+        $file = $this->path . $filename . '.view.php';
 
         if (!file_exists($file)) {
             throw new Exception("No page {$filename} found.");
@@ -34,9 +57,9 @@ class View
      * @param array $data
      * @return void
      */
-    public static function render($filename, array $data = null)
+    public function render(string $filename, array $data = null)
     {
-        $file = self::getFile($filename);
+        $file = $this->getFile($filename);
 
         if ($data) {
             extract($data);
@@ -52,9 +75,9 @@ class View
      * @param array $data
      * @return string
      */
-    public static function make($filename, array $data = null)
+    public function make(string $filename, array $data = null)
     {
-        $file = self::getFile($filename);
+        $file = $this->getFile($filename);
 
         if ($data) {
             extract($data);
