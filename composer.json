@@ -1,0 +1,14 @@
+{
+    "name": "cba85/wp-icarus-framework",
+    "description": "Wordpress Icarus plugin framework boilerplate",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Clement Barbaza",
+            "email": "hi@clementbarbaza.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
