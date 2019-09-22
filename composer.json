@@ -9,5 +9,17 @@
             "email": "hi@clementbarbaza.com"
         }
     ],
-    "require": {}
+    "autoload": {
+        "psr-4": {
+            "Icarus\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Icarus\\Tests\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.3"
+    }
 }
