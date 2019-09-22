@@ -9,6 +9,5 @@
             "email": "hi@clementbarbaza.com"
         }
     ],
-    "minimum-stability": "dev",
     "require": {}
 }
