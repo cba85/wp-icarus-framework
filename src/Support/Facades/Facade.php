@@ -13,7 +13,7 @@ abstract class Facade
      *
      * @var array
      */
-    protected static $instances = [];
+    protected static $container = [];
 
     /**
      * Get facade accessor
@@ -35,13 +35,13 @@ abstract class Facade
     public static function __callStatic($method, $args)
     {
         $key = static::getFacadeAccessor();
-        if (!array_key_exists($key, self::$instances)) {
+        if (!array_key_exists($key, self::$container)) {
             $class = "Icarus\\{$key}\\{$key}";
             $instance = new $class;
-            self::$instances[$key] = $instance;
+            self::$container[$key] = $instance;
         }
 
-        $instance = self::$instances[$key];
+        $instance = self::$container[$key];
 
         return $instance->$method(...$args);
     }
