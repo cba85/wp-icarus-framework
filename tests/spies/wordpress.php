@@ -26,3 +26,27 @@ if (!function_exists("add_menu_page")) {
         return null;
     }
 }
+
+if (!function_exists("plugins_url")) {
+    function plugins_url(string $path = '', string $plugin = '')
+    {
+        return $path;
+    }
+}
+
+if (!function_exists("wp_enqueue_style")) {
+    function wp_enqueue_style(string $handle, string $src = '', array $deps = [], $ver = false, string $media = 'all') {
+        $handle = "";
+        $src = "";
+        return null;
+    }
+}
+
+if (!function_exists("wp_enqueue_script")) {
+    function wp_enqueue_script(string $handle, string $src = '', array $deps = [], $ver = false, bool $in_footer = false)
+    {
+        $handle = "";
+        $src = "";
+        return null;
+    }
+}

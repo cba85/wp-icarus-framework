@@ -6,6 +6,6 @@ class Notice extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'Notice';
+        return 'Notice\\Notice';
     }
 }

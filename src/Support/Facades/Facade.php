@@ -35,8 +35,9 @@ abstract class Facade
     public static function __callStatic($method, $args)
     {
         $key = static::getFacadeAccessor();
+
         if (!array_key_exists($key, self::$container)) {
-            $class = "Icarus\\{$key}\\{$key}";
+            $class = "Icarus\\{$key}";
             $instance = new $class;
             self::$container[$key] = $instance;
         }

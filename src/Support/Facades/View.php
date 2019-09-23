@@ -6,6 +6,6 @@ class View extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'View';
+        return 'View\\View';
     }
 }

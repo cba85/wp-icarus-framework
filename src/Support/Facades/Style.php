@@ -1,10 +1,11 @@
 <?php
+
 namespace Icarus\Support\Facades;
 
-class Config extends Facade
+class Style extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'Config\\Config';
+        return 'Assets\\Style';
     }
 }

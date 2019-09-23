@@ -1,6 +1,6 @@
 <?php
 
-namespace Icarus\Router;
+namespace Icarus\Routing;
 
 use Exception;
 
@@ -59,77 +59,6 @@ class Router
             function () {
                 return (new AdminController)->route('wc-mondialrelay-status');
             }
-        );
-    }
-
-    /**
-     * Path of the style public files
-     *
-     * @var string
-     */
-    protected $stylePath = "/../../public/css/";
-
-    /**
-     * Path of the scripts public files
-     *
-     * @var string
-     */
-    protected $scriptPath = "/../../public/js/";
-
-    /**
-     * Enqueue script and style files in administration
-     *
-     * @return void
-     */
-    public function adminAssets()
-    {
-        wp_enqueue_style(
-            'woocommerce_mondialrelay_admin',
-            plugins_url("{$this->stylePath}/admin.min.css", __FILE__),
-            false,
-            'all'
-        );
-    }
-
-    /**
-     * Enqueue script and style files in checkout page
-     *
-     * @return void
-     */
-    public function checkoutAssets()
-    {
-        if (!is_checkout()) {
-            return false;
-        }
-        wp_enqueue_style(
-            'leaflet',
-            Config::get('widget')['leaflet']['style'],
-            false,
-            'all'
-        );
-        wp_enqueue_script(
-            'jquery',
-            Config::get('widget')['jquery'],
-            false,
-            'all'
-        );
-        wp_enqueue_script(
-            'leaflet',
-            Config::get('widget')['leaflet']['script'],
-            false,
-            'all'
-        );
-        wp_enqueue_script(
-            'mondialrelay_parcelshop_picker',
-            Config::get('widget')['parcelshop_picker'],
-            false,
-            'all'
-        );
-        wp_enqueue_script(
-            'woocommerce_mondialrelay_checkout',
-            plugins_url("{$this->scriptPath}/checkout.min.js", __FILE__),
-            false,
-            'all'
         );
     }
 
@@ -201,9 +130,6 @@ class Router
      */
     protected function callAction($controller, $action)
     {
-        //add_action('admin_menu', [$this, 'addMenu']);
-        //add_action('admin_enqueue_scripts', [$this, 'adminAssets']);
-        $controller = "Woocommerce\\Mondialrelay\\Controllers\\{$controller}";
         $this->controller = new $controller;
 
         if (!method_exists($controller, $action)) {
