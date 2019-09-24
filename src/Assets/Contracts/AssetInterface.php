@@ -9,4 +9,5 @@ interface AssetInterface
 {
     public function setPath(string $path);
     public function getPath();
+    public function save();
 }

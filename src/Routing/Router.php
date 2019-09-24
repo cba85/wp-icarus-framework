@@ -12,55 +12,6 @@ class Router
     protected $controller;
 
     protected $action;
-    /**
-     * Create the menu
-     *
-     * @return void
-     */
-    public function addMenu()
-    {
-        add_menu_page(
-            Config::get('plugin')['admin_menus']['wc-mondialrelay']['page'],
-            Config::get('plugin')['admin_menus']['wc-mondialrelay']['menu'],
-            'manage_woocommerce',
-            'wc-mondialrelay',
-            function () {
-                return $this->controller->dispatch();
-            },
-            'dashicons-location',
-            Config::get('plugin')['menu_position']
-        );
-        add_submenu_page(
-            'wc-mondialrelay',
-            Config::get('plugin')['admin_menus']['wc-mondialrelay-webservice']['page'],
-            Config::get('plugin')['admin_menus']['wc-mondialrelay-webservice']['menu'],
-            'manage_woocommerce',
-            'wc-mondialrelay-webservice',
-            function () {
-                return (new AdminController)->route('wc-mondialrelay-webservice');
-            }
-        );
-        add_submenu_page(
-            'wc-mondialrelay',
-            Config::get('plugin')['admin_menus']['wc-mondialrelay-settings']['page'],
-            Config::get('plugin')['admin_menus']['wc-mondialrelay-settings']['menu'],
-            'manage_woocommerce',
-            'wc-mondialrelay-settings',
-            function () {
-                return (new AdminController)->route('wc-mondialrelay-settings');
-            }
-        );
-        add_submenu_page(
-            'wc-mondialrelay',
-            Config::get('plugin')['admin_menus']['wc-mondialrelay-status']['page'],
-            Config::get('plugin')['admin_menus']['wc-mondialrelay-status']['menu'],
-            'manage_woocommerce',
-            'wc-mondialrelay-status',
-            function () {
-                return (new AdminController)->route('wc-mondialrelay-status');
-            }
-        );
-    }
 
     /**
      * All registered routes.
@@ -137,8 +88,6 @@ class Router
                 "{$controller} does not respond to the {$action} action."
             );
         }
-
-        add_action('admin_menu', [$this, 'addMenu']);
     }
 
     public function slug()

@@ -10,6 +10,8 @@ use Icarus\Assets\Contracts\AssetInterface;
  */
 class Style extends Asset implements AssetInterface
 {
+    protected $styles;
+
     /**
      * Add a style
      *
@@ -27,8 +29,30 @@ class Style extends Asset implements AssetInterface
         }
 
         $url = $this->generateUrl($src);
-        wp_enqueue_style($handle, $url, $deps, $ver, $media);
+        $this->styles[] = [
+            'handle' => $handle,
+            'url' => $url,
+            'deps' => $deps,
+            'ver' => $ver,
+            'media' => $media
+        ];
 
         return $this;
+    }
+
+    /**
+     * Add styles
+     *
+     * @return void
+     */
+    protected function addStyles() {
+        foreach ($this->styles as $style) {
+            wp_enqueue_style(
+                $style['handle'],
+                $style['url'],
+                $style['deps'],
+                $style['ver'],
+                $style['media']);
+        }
     }
 }

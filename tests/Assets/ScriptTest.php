@@ -12,6 +12,7 @@ final class ScriptTest extends TestCase
     {
         Script::setPath(__DIR__ . '/js/scripts.js')
             ->add('style1-name', 'style.css', [], false, 'all')
-            ->add('style2-name', 'style2.css', [], false, 'all');
+            ->add('style2-name', 'style2.css', [], false, 'all')
+            ->save();
     }
 }

@@ -11,6 +11,13 @@ use Icarus\Assets\Contracts\AssetInterface;
 class Script extends Asset implements AssetInterface
 {
     /**
+     * Scripts
+     *
+     * @var array
+     */
+    protected $scripts = [];
+
+    /**
      * Add a script
      *
      * @param string $handle
@@ -27,8 +34,33 @@ class Script extends Asset implements AssetInterface
         }
 
         $url = $this->generateUrl($src);
-        wp_enqueue_script($handle, $url, $deps, $ver, $in_footer);
+        $url = $this->generateUrl($src);
+        $this->scripts[] = [
+            'handle' => $handle,
+            'url' => $url,
+            'deps' => $deps,
+            'ver' => $ver,
+            'in_footer' => $in_footer
+        ];
 
         return $this;
+    }
+
+    /**
+     * Add scripts
+     *
+     * @return void
+     */
+    protected function addScripts()
+    {
+        foreach ($this->scripts as $script) {
+            wp_enqueue_script(
+                $script['handle'],
+                $script['url'],
+                $script['deps'],
+                $script['ver'],
+                $script['in_footer']
+            );
+        }
     }
 }
