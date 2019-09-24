@@ -10,7 +10,12 @@ use Icarus\Assets\Contracts\AssetInterface;
  */
 class Style extends Asset implements AssetInterface
 {
-    protected $styles;
+    /**
+     * Styles
+     *
+     * @var array
+     */
+    protected $styles = [];
 
     /**
      * Add a style
