@@ -9,9 +9,6 @@ use Exception;
  */
 class Router
 {
-    protected $controller;
-
-    protected $action;
 
     /**
      * All registered routes.
@@ -73,6 +70,11 @@ class Router
         throw new Exception('No route defined for this URI.');
     }
 
+    public function doAction($controller, $action)
+    {
+        add_action("admin_post_{$action}", [$this, "callAction"]);
+    }
+
     /**
      * Load and call the relevant controller action.
      *
@@ -88,10 +90,5 @@ class Router
                 "{$controller} does not respond to the {$action} action."
             );
         }
-    }
-
-    public function slug()
-    {
-        return $this;
     }
 }
