@@ -64,3 +64,10 @@ if (!function_exists("add_submenu_page")) {
         return null;
     }
 }
+
+if (!function_exists("is_admin")) {
+    function is_admin()
+    {
+        return null;
+    }
+}

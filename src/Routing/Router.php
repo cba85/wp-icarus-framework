@@ -3,6 +3,7 @@
 namespace Icarus\Routing;
 
 use Exception;
+use Icarus\Routing\Traits\Prefix;
 
 /**
  * Router
@@ -10,11 +11,22 @@ use Exception;
 class Router
 {
 
+    use Prefix;
+
+    protected $requestType;
+
     protected $controller;
 
-    protected $action;
+    protected $method;
 
-    protected $menus = ['pages', 'subpages'];
+    protected $uri;
+
+    public $menu;
+
+    public function __construct()
+    {
+        $this->menu = new Menu;
+    }
 
     /**
      * All registered routes.
@@ -23,7 +35,8 @@ class Router
      */
     public $routes = [
         'GET' => [],
-        'POST' => []
+        'POST' => [],
+        'ACTION' => [],
     ];
 
     /**
@@ -46,7 +59,9 @@ class Router
      */
     public function get($uri, $controller)
     {
-        $this->routes['GET'][$uri] = $controller;
+        $this->routes['GET'][$uri] = [
+            'controller' => $controller
+        ];
     }
 
     /**
@@ -57,7 +72,25 @@ class Router
      */
     public function post($uri, $controller)
     {
-        $this->routes['POST'][$uri] = $controller;
+        $this->routes['POST'][$uri] = [
+            'controller' => $controller
+        ];
+    }
+
+    /**
+     * Register a ACTION route.
+     *
+     * @param string $uri
+     * @param string $action
+     * @param string $controller
+     * @return void
+     */
+    public function action($uri, $action, $controller)
+    {
+        $this->routes['POST'][$uri] = [
+            'action' => $action,
+            'controller' => $controller
+        ];
     }
 
     /**
@@ -68,113 +101,54 @@ class Router
      */
     public function direct($uri, $requestType)
     {
+        $this->requestType = $requestType;
+        $this->uri = $uri;
+
         if (array_key_exists($uri, $this->routes[$requestType])) {
             $this->callAction(
-                ...explode('@', $this->routes[$requestType][$uri])
+                ...explode('@', $this->routes[$requestType][$uri]['controller'])
             );
         }
+
         return $this;
     }
 
+    /**
+     * Call the relevant controller method.
+     *
+     * @return callback
+     */
     public function doAction()
     {
         $controller = new $this->controller;
-        $action = $this->action;
+        $method = $this->method;
 
-        return $controller->$action();
+        return $controller->$method();
     }
 
     /**
-     * Load and call the relevant controller action.
+     * Load the relevant controller method.
      *
      * @param string $controller
-     * @param string $action
+     * @param string $method
      */
-    protected function callAction($controller, $action)
+    protected function callAction($controller, $method)
     {
         $this->controller = $controller;
-        $this->action = $action;
-        if (!method_exists($controller, $action)) {
+        $this->method = $method;
+        if (!method_exists($controller, $method)) {
             throw new Exception(
-                "{$controller} does not respond to the {$action} action."
+                "{$controller} does not respond to the {$method} action."
             );
         }
 
-        add_action("admin_post_process_test", [$this, "doAction"]);
-    }
-
-    public function prefix($type, $callback)
-    {
-        if (!$type()) {
+        if ($this->prefix == 'is_admin' and $this->requestType == 'POST') {
+            add_action("admin_post_{$this->routes['POST'][$this->uri]['action']}", [$this, "doAction"]);
             return;
         }
 
-        return $callback();
+        $this->doAction();
+
     }
 
-    public function admin($callback)
-    {
-        $this->prefix('is_admin', $callback);
-    }
-
-    public function menuPage(string $pageTitle, string $menuTitle, string $capability, string $menuSlug, callable $function = null, string $iconUrl = "", int $position = null)
-    {
-        $this->menus['pages'][] = [
-            'pageTitle' => $pageTitle,
-            'menuTitle' => $menuTitle,
-            'capability' => $capability,
-            'menuSlug' => $menuSlug,
-            'function' => $function,
-            'iconUrl' => $iconUrl,
-            'position' => $position
-        ];
-    }
-
-    public function menuSubPage(string $parentSlug, string $pageTitle, string $menuTitle, string $capability, string $menuSlug, callable $function = null)
-    {
-        $this->menus['subpages'][] = [
-            'parentSlug' => $parentSlug,
-            'pageTitle' => $pageTitle,
-            'menuTitle' => $menuTitle,
-            'capability' => $capability,
-            'menuSlug' => $menuSlug,
-            'function' => $function
-        ];
-    }
-
-    public function addMenus()
-    {
-        if (!empty($this->menus['pages'])) {
-            foreach ($this->menus['pages'] as $page) {
-                add_menu_page(
-                    $page['pageTitle'],
-                    $page['menuTitle'],
-                    $page['capability'],
-                    $page['menuSlug'],
-                    $page['function'],
-                    $page['iconUrl'],
-                    $page['position']
-                );
-            }
-        }
-        if (!empty($this->menus['subpages'])) {
-            foreach ($this->menus['subpages'] as $subPage) {
-                add_submenu_page(
-                    $subPage['parentSlug'],
-                    $subPage['pageTitle'],
-                    $subPage['menuTitle'],
-                    $subPage['capability'],
-                    $subPage['menuSlug'],
-                    $subPage['function']
-                );
-            }
-        }
-    }
-
-    public function createMenus()
-    {
-        if (!empty($this->menus['pages']) or !empty($this->menus['subpages'])) {
-            add_action('admin_menu', [$this, 'addMenus']);
-        }
-    }
 }

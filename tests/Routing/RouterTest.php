@@ -27,6 +27,12 @@ final class RouterTest extends TestCase
     public function testRouterMenuCreation()
     {
         $uri = $this->createUri();
-        Router::load($this->routes)->direct($uri, 'GET')->createMenus();
+        Router::load($this->routes)->direct($uri, 'GET')->menu->create();
+    }
+
+    public function testRouterActionMethod()
+    {
+        $uri = $this->createUri();
+        Router::load($this->routes)->direct($uri, 'POST');
     }
 }

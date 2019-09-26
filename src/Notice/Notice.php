@@ -14,6 +14,14 @@ class Notice
     protected $key;
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        !@session_start();
+    }
+
+    /**
      * Get notice session key
      *
      * @return string
@@ -72,7 +80,5 @@ class Notice
             'class' => "notice-{$notice['type']}",
             'message' => $notice['message'],
         ]);
-
-        return;
     }
 }

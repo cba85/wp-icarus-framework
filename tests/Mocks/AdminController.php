@@ -4,7 +4,12 @@ namespace Icarus\Tests\Mocks;
 
 class AdminController
 {
-    public function dispatch()
+    public function index()
+    {
+        return true;
+    }
+
+    public function save()
     {
         return true;
     }
