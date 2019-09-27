@@ -15,6 +15,7 @@ trait Url
      */
     public function generateUrl(string $src)
     {
-        return plugins_url("{$this->path}/{$src}", __FILE__);
+        $url = plugin_dir_url("{$this->path}/{$src}");
+        return "{$url}/{$src}";
     }
 }

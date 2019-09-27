@@ -26,7 +26,7 @@ class Asset
     public function __construct(string $path = null)
     {
         if ($path) {
-            $this->path = $path;
+            $this->setPath($path);
         }
     }
 
@@ -54,6 +54,17 @@ class Asset
     }
 
     /**
+     * Reset assets previously enqueuded
+     *
+     * @return void
+     */
+    public function resetAssetsEnqueued()
+    {
+        $this->styles = [];
+        $this->scripts = [];
+    }
+
+    /**
      * Add all assets (styles or scripts)
      *
      * @return void
@@ -70,6 +81,7 @@ class Asset
                 $this->addScripts();
                 break;
         }
+        $this->resetAssetsEnqueued();
     }
 
     /**
@@ -77,8 +89,11 @@ class Asset
      *
      * @return void
      */
-    public function save($tag = 'wp_enqueue_scripts')
+    public function save($tag)
     {
+        if (!$tag) {
+            return;
+        }
         add_action($tag, [$this, 'addAssets']);
     }
 }

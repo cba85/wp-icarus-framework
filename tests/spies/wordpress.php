@@ -71,3 +71,10 @@ if (!function_exists("is_admin")) {
         return null;
     }
 }
+
+if (!function_exists("plugin_dir_url")) {
+    function plugin_dir_url()
+    {
+        return null;
+    }
+}

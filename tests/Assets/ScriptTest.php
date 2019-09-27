@@ -13,6 +13,6 @@ final class ScriptTest extends TestCase
         Script::setPath(__DIR__ . '/js')
             ->add('scripts', 'scripts.js', [], false, true)
             ->add('admin', 'admin.js', [], false, true)
-            ->save();
+            ->save('wp_enqueue_script');
     }
 }

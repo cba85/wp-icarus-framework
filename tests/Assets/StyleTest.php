@@ -13,6 +13,6 @@ final class StyleTest extends TestCase
         Style::setPath(__DIR__ . '/css')
             ->add('style1-name', 'style.css', [], false, 'all')
             ->add('style2-name', 'style2.css', [], false, 'all')
-            ->save();
+            ->save('wp_enqueue_style');
     }
 }

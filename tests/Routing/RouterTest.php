@@ -3,7 +3,7 @@
 namespace Icarus\Tests\Config;
 
 use PHPUnit\Framework\TestCase;
-use Icarus\Routing\Router;
+use Icarus\Support\Facades\Router;
 
 final class RouterTest extends TestCase
 {
