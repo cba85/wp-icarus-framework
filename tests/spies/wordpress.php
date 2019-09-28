@@ -101,3 +101,33 @@ if (!function_exists("delete_option")) {
         return null;
     }
 }
+
+if (!function_exists("get_post_meta")) {
+    function get_post_meta($postId, $key)
+    {
+        $value = str_replace('wp_icarus_', '', $key);
+        return $value;
+    }
+}
+
+if (!function_exists("update_post_meta")) {
+    function update_post_meta($postId, $key)
+    {
+        $value = str_replace('wp_icarus_', '', $key);
+        return $value;
+    }
+}
+
+if (!function_exists("delete_post_meta")) {
+    function delete_post_meta($postId, $key)
+    {
+        return null;
+    }
+}
+
+if (!function_exists("sanitize_text_field")) {
+    function sanitize_text_field($name)
+    {
+        return null;
+    }
+}

@@ -2,6 +2,7 @@
 
 namespace Icarus\Models\Tables;
 
+use Exception;
 use Icarus\Models\Contracts\ModelInterface;
 use Icarus\Models\Model;
 
@@ -10,6 +11,19 @@ use Icarus\Models\Model;
  */
 class Option extends Model implements ModelInterface
 {
+    /**
+     * Check required properties
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        if (empty($this->prefix)) {
+            throw new Exception(get_class($this) . ' must have a prefix');
+        }
+        if (empty($this->fields) or !is_array($this->fields)) {
+            throw new Exception(get_class($this) . ' must have a fields array');
+        }
+    }
 
     /**
      * Get model options

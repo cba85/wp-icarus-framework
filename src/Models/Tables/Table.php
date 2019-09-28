@@ -2,89 +2,111 @@
 
 namespace Icarus\Models\Tables;
 
-use Icarus\Models\Contracts\ModelInterface;
+use Exception;
 use Icarus\Models\Model;
 
 /**
  * Table
  */
-class Table extends Model implements ModelInterface
+class Table extends Model
 {
     /**
-     * ID key name
-     * @var string
+     * ID
+     *
+     * @var int
      */
-    protected $key;
+    public $id;
 
     /**
-     * Get the first row (default)
-     *
-     * @return void
+     * Check required properties
      */
-    public function first()
+    public function __construct()
     {
-        global $wpdb;
-        return $this->attributes = $wpdb->get_row("SELECT * FROM $this->table");
-    }
+        parent::__construct();
 
-    /**
-     * Get row
-     *
-     * @param int $id
-     * @return object
-     */
-    public function get(int $id)
-    {
-        global $wpdb;
-        return $this->attributes = $wpdb->get_row("SELECT * FROM $this->table WHERE id = $id");
-    }
-
-    /**
-     * Get all results
-     *
-     * @return object
-     */
-    public function all($invert = false)
-    {
-        global $wpdb;
-        $query = "SELECT * FROM $this->table";
-        if ($invert) {
-            $query .= " ORDER BY id DESC";
+        if (empty($this->table)) {
+            throw new Exception(get_class($this) . ' must have a table');
         }
-        return $wpdb->get_results($query);
+
+        if (empty($this->key)) {
+            throw new Exception(get_class($this) . ' must have a key');
+        }
+
+        if (empty($this->fields) or !is_array($this->fields)) {
+            throw new Exception(get_class($this) . ' must have a fields array');
+        }
+    }
+
+    /**
+     * Get a row
+     *
+     * @return object
+     */
+    public function get()
+    {
+        global $wpdb;
+
+        if (empty($this->id)) {
+            throw new Exception("ID is not filled");
+        }
+
+        return $this->attributes = $wpdb->get_row("SELECT * FROM $this->table WHERE id = $this->id");
     }
 
     /**
      * Delete a row
      *
-     * @param int $id
      * @return void
      */
     public function delete()
     {
         global $wpdb;
-        return $wpdb->delete($this->table, ['id' => $id]);
+
+        if (empty($this->id)) {
+            throw new Exception("ID is not filled");
+        }
+
+        $wpdb->delete($this->table, ['id' => $this->id]);
+
+        foreach ($this->attributes as $key => $attribute) {
+            $this->attributes->$key = null;
+        }
+        $this->id = null;
     }
 
     /**
      * Update a row
-     * @param  int    $id
-     * @param  array  $values
      * @return bool|int
      */
-    public function update(int $id, array $values)
+    public function update()
     {
         global $wpdb;
 
+        if (empty($this->id)) {
+            throw new Exception("ID is not filled");
+        }
+
         return $wpdb->update(
             $this->table,
-            $values,
-            [$this->key => $id]
+            (array) $this->attributes,
+            [$this->key => $this->id]
         );
     }
 
+    /**
+     * Save a row
+     *
+     * @return void
+     */
     public function save()
     {
+        global $wpdb;
 
+        if (!empty($this->id)) {
+            throw new Exception("ID already exists");
+        }
+
+        $wpdb->insert($this->table, (array) $this->attributes);
+        $this->id = $wpdb->insert_id;
     }
 }

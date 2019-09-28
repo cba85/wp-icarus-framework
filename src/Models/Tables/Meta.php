@@ -23,6 +23,12 @@ class Meta extends Model implements ModelInterface
     {
         parent::__construct();
         $this->postId = $postId;
+        if (empty($this->prefix)) {
+            throw new Exception(get_class($this) . ' must have a prefix');
+        }
+        if (empty($this->fields) or !is_array($this->fields)) {
+            throw new Exception(get_class($this) . ' must have a fields array');
+        }
     }
 
     /**
@@ -33,7 +39,7 @@ class Meta extends Model implements ModelInterface
     public function get()
     {
         foreach ($this->fields as $field) {
-            $this->attributes->{$field} = get_post_meta($this->orderId, $this->prefix . $field, true);
+            $this->attributes->{$field} = get_post_meta($this->postId, $this->prefix . $field, true);
         }
         return $this->attributes;
     }
@@ -47,7 +53,7 @@ class Meta extends Model implements ModelInterface
     {
         foreach ($this->fields as $field) {
             if (!empty($this->attributes->{$field})) {
-                update_post_meta($this->orderId, $this->prefix . $field, sanitize_text_field($this->attributes->{$field}));
+                update_post_meta($this->postId, $this->prefix . $field, sanitize_text_field($this->attributes->{$field}));
             }
         }
     }
@@ -71,7 +77,8 @@ class Meta extends Model implements ModelInterface
     {
         foreach ($this->fields as $field) {
             if (!empty($this->attributes->{$field})) {
-                delete_post_meta($this->orderId, $this->prefix . $field);
+                delete_post_meta($this->postId, $this->prefix . $field);
+                $this->attributes->$field = null;
             }
         }
     }
