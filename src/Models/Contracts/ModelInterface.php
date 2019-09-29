@@ -2,6 +2,9 @@
 
 namespace Icarus\Models\Contracts;
 
+/**
+ * Model interface
+ */
 interface ModelInterface
 {
     public function get();
