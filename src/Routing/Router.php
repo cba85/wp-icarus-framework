@@ -3,12 +3,15 @@
 namespace Icarus\Routing;
 
 use Exception;
+use Icarus\Routing\Traits\Admin;
 
 /**
  * Router
  */
 class Router
 {
+    use Admin;
+
     protected $requestType;
 
     protected $controller;
@@ -17,6 +20,8 @@ class Router
 
     protected $uri;
 
+    protected $admin;
+
     /**
      * All registered routes.
      *
@@ -24,8 +29,7 @@ class Router
      */
     public $routes = [
         'GET' => [],
-        'POST' => [],
-        'ACTION' => [],
+        'POST' => []
     ];
 
     /**
@@ -131,7 +135,7 @@ class Router
             );
         }
 
-        if ($this->requestType == 'POST') {
+        if ($this->admin and $this->requestType == 'POST') {
             add_action("admin_post_{$this->routes['POST'][$this->uri]['action']}", [$this, "doAction"]);
             return;
         }

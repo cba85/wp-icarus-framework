@@ -108,14 +108,10 @@ class Menu
     /**
      * Create menu
      *
-     * @param callable $function
      * @return void
      */
-    public function create(callable $function = null)
+    public function create()
     {
-        if ($function) {
-            $function();
-        }
         if (!empty($this->pages) or !empty($this->subPages)) {
             add_action('admin_menu', [$this, 'addMenu']);
         }

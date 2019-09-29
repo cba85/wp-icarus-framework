@@ -8,12 +8,24 @@ use Exception;
  */
 abstract class Facade
 {
+    protected static $app;
+
     /**
      * Loaded instances
      *
      * @var array
      */
     protected static $container = [];
+
+    public static function setFacadeApplication($app)
+    {
+        static::$app = $app;
+    }
+
+    public static function getFacadeApplication()
+    {
+        return static::$app;
+    }
 
     /**
      * Get facade accessor
@@ -34,15 +46,16 @@ abstract class Facade
      */
     public static function __callStatic($method, $args)
     {
+
         $key = static::getFacadeAccessor();
 
-        if (!array_key_exists($key, self::$container)) {
+        if (!static::$app->container->getInstance($key)) {
             $class = "Icarus\\{$key}";
             $instance = new $class;
-            self::$container[$key] = $instance;
+            static::$app->container->addInstance($key, $instance);
         }
 
-        $instance = self::$container[$key];
+        $instance = static::$app->container->getInstance($key);
 
         return $instance->$method(...$args);
     }
