@@ -1,9 +1,9 @@
 <?php
 
-namespace Icarus\Routing;
+namespace Icarus\Menu;
 
 /**
- * Wordpress admin menu
+ * Wordpress Menu class
  */
 class Menu
 {
@@ -12,17 +12,17 @@ class Menu
      *
      * @var array
      */
-    protected $pages;
+    protected $pages = [];
 
     /**
-     * Menu subpages
+     * Menu sub pages
      *
      * @var array
      */
-    protected $subPages;
+    protected $subPages = [];
 
     /**
-     * Register a menu page
+     * Add menu page
      *
      * @param string $pageTitle
      * @param string $menuTitle
@@ -31,9 +31,9 @@ class Menu
      * @param callable $function
      * @param string $iconUrl
      * @param integer $position
-     * @return void
+     * @return self
      */
-    public function page(string $pageTitle, string $menuTitle, string $capability, string $menuSlug, callable $function = null, string $iconUrl = "", int $position = null)
+    public function addPage(string $pageTitle, string $menuTitle, string $capability, string $menuSlug, callable $function = null, string $iconUrl = "", int $position = null)
     {
         $this->pages[] = [
             'pageTitle' => $pageTitle,
@@ -44,10 +44,11 @@ class Menu
             'iconUrl' => $iconUrl,
             'position' => $position
         ];
+        return $this;
     }
 
     /**
-     * Register a submenu page
+     * Add sub menu page
      *
      * @param string $parentSlug
      * @param string $pageTitle
@@ -55,9 +56,9 @@ class Menu
      * @param string $capability
      * @param string $menuSlug
      * @param callable $function
-     * @return void
+     * @return self
      */
-    public function subPage(string $parentSlug, string $pageTitle, string $menuTitle, string $capability, string $menuSlug, callable $function = null)
+    public function addSubPage(string $parentSlug, string $pageTitle, string $menuTitle, string $capability, string $menuSlug, callable $function = null)
     {
         $this->subPages[] = [
             'parentSlug' => $parentSlug,
@@ -67,14 +68,15 @@ class Menu
             'menuSlug' => $menuSlug,
             'function' => $function
         ];
+        return $this;
     }
 
     /**
-     * Add menu pages and subpages
+     * Add menu
      *
      * @return void
      */
-    public function add()
+    public function addMenu()
     {
         if (!empty($this->pages)) {
             foreach ($this->pages as $page) {
@@ -104,14 +106,18 @@ class Menu
     }
 
     /**
-     * Create menus
+     * Create menu
      *
+     * @param callable $function
      * @return void
      */
-    public function create()
+    public function create(callable $function = null)
     {
+        if ($function) {
+            $function();
+        }
         if (!empty($this->pages) or !empty($this->subPages)) {
-            add_action('admin_menu', [$this, 'add']);
+            add_action('admin_menu', [$this, 'addMenu']);
         }
     }
 }

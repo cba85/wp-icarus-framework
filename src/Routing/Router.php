@@ -3,16 +3,12 @@
 namespace Icarus\Routing;
 
 use Exception;
-use Icarus\Routing\Traits\Prefix;
 
 /**
  * Router
  */
 class Router
 {
-
-    use Prefix;
-
     protected $requestType;
 
     protected $controller;
@@ -20,13 +16,6 @@ class Router
     protected $method;
 
     protected $uri;
-
-    public $menu;
-
-    public function __construct()
-    {
-        $this->menu = new Menu;
-    }
 
     /**
      * All registered routes.
@@ -142,7 +131,7 @@ class Router
             );
         }
 
-        if ($this->prefix == 'is_admin' and $this->requestType == 'POST') {
+        if ($this->requestType == 'POST') {
             add_action("admin_post_{$this->routes['POST'][$this->uri]['action']}", [$this, "doAction"]);
             return;
         }
