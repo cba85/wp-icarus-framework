@@ -10,26 +10,35 @@ use Icarus\Models\Tables\Table;
 class TestTable extends Table
 {
     /**
-     * Table for test
+     * Table
      *
-     * @var string
+     * @return string
      */
-    public $table = "test";
+    public function table()
+    {
+        return 'test';
+    }
 
     /**
-     * Prefix for test
+     * Key
      *
-     * @var string
+     * @return string
      */
-    public $key = 'id';
+    public function key()
+    {
+        return 'id';
+    }
 
     /**
-     * Fields for account
+     * Fields
      *
-     * @var array
+     * @return array
      */
-    public $fields = [
-        'test1',
-        'test2',
-    ];
+    public function fields()
+    {
+        return [
+            'test1',
+            'test2',
+        ];
+    }
 }

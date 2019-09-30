@@ -8,7 +8,12 @@ use Exception;
  */
 abstract class Facade
 {
-    protected static $app;
+    /**
+     * Plugin instance
+     *
+     * @var Plugin
+     */
+    protected static $plugin;
 
     /**
      * Loaded instances
@@ -17,14 +22,25 @@ abstract class Facade
      */
     protected static $container = [];
 
-    public static function setFacadeApplication($app)
+    /**
+     * Set facade plugin
+     *
+     * @param Plugin $plugin
+     * @return void
+     */
+    public static function setFacadePlugin($plugin)
     {
-        static::$app = $app;
+        static::$plugin = $plugin;
     }
 
-    public static function getFacadeApplication()
+    /**
+     * Get facade plugin
+     *
+     * @return Plugin
+     */
+    public static function getFacadePlugin()
     {
-        return static::$app;
+        return static::$plugin;
     }
 
     /**
@@ -46,16 +62,15 @@ abstract class Facade
      */
     public static function __callStatic($method, $args)
     {
-
         $key = static::getFacadeAccessor();
 
-        if (!static::$app->container->getInstance($key)) {
+        if (!static::$plugin->container->getInstance($key)) {
             $class = "Icarus\\{$key}";
             $instance = new $class;
-            static::$app->container->addInstance($key, $instance);
+            static::$plugin->container->singleton($key, $instance);
         }
 
-        $instance = static::$app->container->getInstance($key);
+        $instance = static::$plugin->container->getInstance($key);
 
         return $instance->$method(...$args);
     }

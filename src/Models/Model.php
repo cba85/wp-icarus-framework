@@ -7,15 +7,8 @@ use StdClass;
 /**
  * Model
  */
-class Model
+abstract class Model
 {
-    /**
-     * Database table
-     *
-     * @var string
-     */
-    protected $table;
-
     /**
      * Model attributes
      *

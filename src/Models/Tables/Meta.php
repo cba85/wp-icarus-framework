@@ -2,10 +2,11 @@
 
 namespace Icarus\Models\Tables;
 
+use Icarus\Models\Contracts\MetaInterface;
 use Icarus\Models\Contracts\ModelInterface;
 use Icarus\Models\Model;
 
-class Meta extends Model implements ModelInterface
+abstract class Meta extends Model implements ModelInterface, MetaInterface
 {
     /**
      * Meta post id
@@ -15,6 +16,20 @@ class Meta extends Model implements ModelInterface
     protected $postId = null;
 
     /**
+     * Option prefix
+     *
+     * @var string
+     */
+    protected $prefix;
+
+    /**
+     * Option keys
+     *
+     * @var array
+     */
+    protected $fields;
+
+    /**
      * Meta constructor
      *
      * @param int $postId
@@ -22,13 +37,29 @@ class Meta extends Model implements ModelInterface
     public function __construct(int $postId)
     {
         parent::__construct();
-        $this->postId = $postId;
-        if (empty($this->prefix)) {
-            throw new Exception(get_class($this) . ' must have a prefix');
-        }
-        if (empty($this->fields) or !is_array($this->fields)) {
-            throw new Exception(get_class($this) . ' must have a fields array');
-        }
+       $this->postId = $postId;
+       $this->setPrefix();
+       $this->setFields();
+    }
+
+    /**
+     * Set option prefix
+     *
+     * @return string
+     */
+    protected function setPrefix()
+    {
+        $this->prefix = $this->prefix();
+    }
+
+    /**
+     * Set fields option
+     *
+     * @return array
+     */
+    protected function setFields()
+    {
+        $this->fields = $this->fields();
     }
 
     /**

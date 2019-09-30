@@ -10,19 +10,25 @@ use Icarus\Models\Tables\Meta;
 class TestMeta extends Meta
 {
     /**
-     * Prefix for test
+     * Prefix
      *
-     * @var string
+     * @return string
      */
-    protected $prefix = 'wp_icarus_';
+    public function prefix()
+    {
+        return 'wp_icarus_';
+    }
 
     /**
-     * Fields for account
+     * Fields
      *
-     * @var array
+     * @return array
      */
-    protected $fields = [
-        'test1',
-        'test2',
-    ];
+    public function fields()
+    {
+        return [
+            'test1',
+            'test2',
+        ];
+    }
 }

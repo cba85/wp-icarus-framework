@@ -3,12 +3,13 @@
 namespace Icarus\Models\Tables;
 
 use Exception;
+use Icarus\Models\Contracts\TableInterface;
 use Icarus\Models\Model;
 
 /**
  * Table
  */
-class Table extends Model
+abstract class Table extends Model implements TableInterface
 {
     /**
      * ID
@@ -18,23 +19,58 @@ class Table extends Model
     public $id;
 
     /**
+     * Option key
+     *
+     * @var string
+     */
+    protected $key;
+
+    /**
+     * Option keys
+     *
+     * @var array
+     */
+    protected $fields;
+
+    /**
      * Check required properties
      */
     public function __construct()
     {
         parent::__construct();
+        $this->setTable();
+        $this->setKey();
+        $this->setFields();
+    }
 
-        if (empty($this->table)) {
-            throw new Exception(get_class($this) . ' must have a table');
-        }
+    /**
+     * Set option table
+     *
+     * @return string
+     */
+    protected function setTable()
+    {
+        $this->table = $this->table();
+    }
 
-        if (empty($this->key)) {
-            throw new Exception(get_class($this) . ' must have a key');
-        }
+    /**
+     * Set option key
+     *
+     * @return string
+     */
+    protected function setKey()
+    {
+        $this->key = $this->key();
+    }
 
-        if (empty($this->fields) or !is_array($this->fields)) {
-            throw new Exception(get_class($this) . ' must have a fields array');
-        }
+    /**
+     * Set fields option
+     *
+     * @return array
+     */
+    protected function setFields()
+    {
+        $this->fields = $this->fields();
     }
 
     /**

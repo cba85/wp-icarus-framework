@@ -2,27 +2,57 @@
 
 namespace Icarus\Models\Tables;
 
-use Exception;
 use Icarus\Models\Contracts\ModelInterface;
+use Icarus\Models\Contracts\OptionInterface;
 use Icarus\Models\Model;
 
 /**
  * Option table
  */
-class Option extends Model implements ModelInterface
+abstract class Option extends Model implements ModelInterface, OptionInterface
 {
     /**
-     * Check required properties
+     * Option prefix
+     *
+     * @var string
+     */
+    protected $prefix;
+
+    /**
+     * Option keys
+     *
+     * @var array
+     */
+    protected $fields;
+
+    /**
+     * Get required properties
      */
     public function __construct()
     {
         parent::__construct();
-        if (empty($this->prefix)) {
-            throw new Exception(get_class($this) . ' must have a prefix');
-        }
-        if (empty($this->fields) or !is_array($this->fields)) {
-            throw new Exception(get_class($this) . ' must have a fields array');
-        }
+        $this->setPrefix();
+        $this->setFields();
+    }
+
+    /**
+     * Set option prefix
+     *
+     * @return string
+     */
+    protected function setPrefix()
+    {
+        $this->prefix = $this->prefix();
+    }
+
+    /**
+     * Set fields option
+     *
+     * @return array
+     */
+    protected function setFields()
+    {
+        $this->fields = $this->fields();
     }
 
     /**
