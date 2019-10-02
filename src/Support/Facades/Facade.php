@@ -16,13 +16,6 @@ abstract class Facade
     protected static $plugin;
 
     /**
-     * Loaded instances
-     *
-     * @var array
-     */
-    protected static $container = [];
-
-    /**
      * Set facade plugin
      *
      * @param Plugin $plugin

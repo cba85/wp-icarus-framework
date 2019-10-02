@@ -2,6 +2,8 @@
 
 namespace Icarus\Support\Container;
 
+use Exception;
+
 /**
  * Container plugin class
  */
@@ -24,6 +26,7 @@ class Container
     public function singleton(string $key, $instance)
     {
         $this->instances[$key] = $instance;
+        return $this;
     }
 
     /**
@@ -44,9 +47,10 @@ class Container
      */
     public function getInstance(string $key)
     {
-        if (!isset($this->instances[$key])) {
-            return null;
+        if (!array_key_exists($key, $this->instances)) {
+            throw new Exception('Unable to get instance from container.');
         }
+
         return $this->instances[$key];
     }
 
