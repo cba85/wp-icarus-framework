@@ -14,13 +14,13 @@ class Container
      *
      * @var array
      */
-    protected $instances;
+    protected $instances = [];
 
     /**
      * Singleton
      *
      * @param string $key
-     * @param callable $instance
+     * @param object $instance
      * @return void
      */
     public function singleton(string $key, $instance)
@@ -48,7 +48,7 @@ class Container
     public function getInstance(string $key)
     {
         if (!array_key_exists($key, $this->instances)) {
-            throw new Exception('Unable to get instance from container.');
+            return false;
         }
 
         return $this->instances[$key];

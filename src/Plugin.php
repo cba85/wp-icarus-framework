@@ -14,6 +14,13 @@ use Icarus\Support\Facades\Facade;
 class Plugin
 {
     /**
+     * Plugin onfiguration file
+     *
+     * @var string
+     */
+    protected $config;
+
+    /**
      * Container plugin
      *
      * @var Container
@@ -22,10 +29,13 @@ class Plugin
 
     /**
      * Create plugin
+     *
+     * @param string $config
      */
-    public function __construct()
+    public function __construct(string $config)
     {
         $this->container = new Container;
+        $this->config = $config;
         Facade::setFacadePlugin($this);
     }
 
@@ -36,7 +46,7 @@ class Plugin
      */
     public function withConfig()
     {
-        Config::bind(['plugin' => require __DIR__ . '/../../../../config/plugin.php']);
+        Config::bind(['plugin' => require "{$this->config}"]);
     }
 
     /**

@@ -7,23 +7,21 @@ use Icarus\Support\Facades\View;
 
 final class ViewTest extends TestCase {
 
-    protected $path = __DIR__ . '/views/';
-
     public function testFileNotFound()
     {
         $this->expectException(Exception::class);
-        View::setPath($this->path)->render('error');
+        View::render('error');
     }
 
     public function testViewRenderWithoutData()
     {
-        $render = View::setPath($this->path)->make('test');
+        $render = View::make('test');
         $this->assertSame("Hello world! ", $render);
     }
 
     public function testViewRenderWithData()
     {
-        $render = View::setPath($this->path)->make('test', ['test' => "test"]);
+        $render = View::make('test', ['test' => "test"]);
         $this->assertSame("Hello world! test", $render);
     }
 }

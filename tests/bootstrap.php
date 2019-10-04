@@ -11,4 +11,6 @@ require __DIR__ . '/spies/wordpress.php';
 // Mocks
 $wpdb = new Wpdb;
 
-$plugin = new Plugin;
+$config = __DIR__ . '/plugin.php';
+$plugin = new Plugin($config);
+$plugin->bootstrap();
