@@ -133,6 +133,18 @@ Notice::setKey("icarus-framework")->create('success', "Success test");
 Notice::display();
 ```
 
+### Hook
+
+#### Usage
+
+```php
+Hook::register('activation', __FILE__, function () {
+    return new HookController;
+})->register('deactivation', __FILE__, function () {
+    return new HookController;
+});
+```
+
 ## Testing
 
 ```
