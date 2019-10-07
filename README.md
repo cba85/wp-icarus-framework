@@ -139,9 +139,9 @@ Notice::display();
 
 ```php
 Hook::register('activation', __FILE__, function () {
-    return new HookController;
+    new ActivationHook;
 })->register('deactivation', __FILE__, function () {
-    return new HookController;
+    new DeactivationHook;
 });
 ```
 
