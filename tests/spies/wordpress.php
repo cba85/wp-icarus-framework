@@ -131,3 +131,24 @@ if (!function_exists("sanitize_text_field")) {
         return null;
     }
 }
+
+if (!function_exists("register_activation_hook")) {
+    function register_activation_hook($file, $function)
+    {
+        return null;
+    }
+}
+
+if (!function_exists("register_deactivation_hook")) {
+    function register_deactivation_hook($file, $function)
+    {
+        return null;
+    }
+}
+
+if (!function_exists("register_uninstall_hook")) {
+    function register_uninstall_hook($file, $function)
+    {
+        return null;
+    }
+}

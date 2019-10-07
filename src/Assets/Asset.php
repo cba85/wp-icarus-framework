@@ -7,7 +7,7 @@ use Icarus\Assets\Traits\Url;
 /**
  * Asset
  */
-class Asset
+abstract class Asset
 {
     use Url;
 
