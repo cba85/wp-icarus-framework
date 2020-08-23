@@ -10,7 +10,7 @@ final class ActivationTest extends TestCase
 {
     public function testHookActivation()
     {
-        Hook::register('activation', __FILE__, function() {
+        Hook::register('activation', __FILE__, function () {
             return new HookController;
         });
     }

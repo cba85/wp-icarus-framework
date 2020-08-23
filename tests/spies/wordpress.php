@@ -27,7 +27,8 @@ if (!function_exists("plugins_url")) {
 }
 
 if (!function_exists("wp_enqueue_style")) {
-    function wp_enqueue_style(string $handle, string $src = '', array $deps = [], $ver = false, string $media = 'all') {
+    function wp_enqueue_style(string $handle, string $src = '', array $deps = [], $ver = false, string $media = 'all')
+    {
         $handle = "";
         $src = "";
         return null;
@@ -55,7 +56,8 @@ if (!function_exists("add_menu_page")) {
 }
 
 if (!function_exists("add_submenu_page")) {
-    function add_submenu_page(string $parent_slug, string $page_title, string $menu_title, string $capability, string $menu_slug, callable $function = null) {
+    function add_submenu_page(string $parent_slug, string $page_title, string $menu_title, string $capability, string $menu_slug, callable $function = null)
+    {
         $parent_slug = "";
         $page_title = "";
         $menu_title = "";

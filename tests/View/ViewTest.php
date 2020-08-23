@@ -1,11 +1,13 @@
 <?php
+
 namespace Icarus\Tests\View;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
 use Icarus\Support\Facades\View;
 
-final class ViewTest extends TestCase {
+final class ViewTest extends TestCase
+{
 
     public function testFileNotFound()
     {

@@ -10,11 +10,11 @@ final class NoticeTest extends TestCase
 
     protected $key = "icarus-framework";
 
-   public function testNoticeTypeCreation()
-   {
+    public function testNoticeTypeCreation()
+    {
         Notice::setKey($this->key)->create('success', "Success test");
         $this->assertArrayHasKey("type", $_SESSION[$this->key]);
-   }
+    }
 
     public function testNoticeMessageCreation()
     {

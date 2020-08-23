@@ -50,14 +50,16 @@ class Style extends Asset implements AssetInterface
      *
      * @return void
      */
-    protected function addStyles() {
+    protected function addStyles()
+    {
         foreach ($this->styles as $style) {
             wp_enqueue_style(
                 $style['handle'],
                 $style['url'],
                 $style['deps'],
                 $style['ver'],
-                $style['media']);
+                $style['media']
+            );
         }
     }
 }

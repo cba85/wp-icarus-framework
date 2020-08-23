@@ -1,4 +1,5 @@
 <?php
+
 namespace Icarus\Notice;
 
 use Icarus\View\View;

@@ -53,5 +53,4 @@ class Container
 
         return $this->instances[$key];
     }
-
 }

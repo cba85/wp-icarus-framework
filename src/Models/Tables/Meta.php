@@ -37,9 +37,9 @@ abstract class Meta extends Model implements ModelInterface, MetaInterface
     public function __construct(int $postId)
     {
         parent::__construct();
-       $this->postId = $postId;
-       $this->setPrefix();
-       $this->setFields();
+        $this->postId = $postId;
+        $this->setPrefix();
+        $this->setFields();
     }
 
     /**

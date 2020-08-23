@@ -42,5 +42,4 @@ class Config
         }
         return $this->registry[$key];
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Icarus\Support\Facades;
 
 use Exception;
