@@ -3,27 +3,36 @@
 namespace Icarus\Tests\View;
 
 use Exception;
+use Icarus\View\View;
 use PHPUnit\Framework\TestCase;
-use Icarus\Support\Facades\View;
+
 
 final class ViewTest extends TestCase
 {
 
+    protected $view;
+
+    public function setUp(): void
+    {
+        $this->view = new View;
+        $this->view->setPath(__DIR__ . '/views/');
+    }
+
     public function testFileNotFound()
     {
         $this->expectException(Exception::class);
-        View::render('error');
+        $this->view->render('error');
     }
 
     public function testViewRenderWithoutData()
     {
-        $render = View::make('test');
+        $render = $this->view->make('test');
         $this->assertSame("Hello world! ", $render);
     }
 
     public function testViewRenderWithData()
     {
-        $render = View::make('test', ['test' => "test"]);
+        $render = $this->view->make('test', ['test' => "test"]);
         $this->assertSame("Hello world! test", $render);
     }
 }

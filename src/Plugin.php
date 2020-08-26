@@ -2,9 +2,7 @@
 
 namespace Icarus;
 
-use Icarus\Support\Facades\Config;
 use Icarus\Support\Container\Container;
-use Icarus\Support\Facades\View;
 use Icarus\Support\Facades\Notice;
 use Icarus\Support\Facades\Facade;
 
@@ -30,33 +28,11 @@ class Plugin
     /**
      * Create plugin
      *
-     * @param string $config
      */
-    public function __construct(string $config)
+    public function __construct()
     {
         $this->container = new Container;
-        $this->config = $config;
         Facade::setFacadePlugin($this);
-    }
-
-    /**
-     * Add and set config module
-     *
-     * @return void
-     */
-    public function withConfig()
-    {
-        Config::bind(['plugin' => require "{$this->config}"]);
-    }
-
-    /**
-     * Add and set view module
-     *
-     * @return void
-     */
-    public function withView()
-    {
-        View::setPath(Config::get('plugin')['view']);
     }
 
     /**
@@ -68,17 +44,5 @@ class Plugin
     public function withNotice($key = "icarus-plugin")
     {
         Notice::setKey($key);
-    }
-
-    /**
-     * Bootstrap plugin
-     *
-     * @return void
-     */
-    public function bootstrap()
-    {
-        $this->withConfig();
-        $this->withView();
-        $this->withNotice();
     }
 }

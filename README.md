@@ -19,25 +19,12 @@ use Icarus\Plugin;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$config = __DIR__ . '/plugin.php'; // Your config file
-$plugin = new Plugin($config);
-$plugin->bootstrap();
-```
-
-You must include a config file :
-
-```php
-return [
-    'name' => 'WP Icarus plugin',
-    'view' => __DIR__ . '/../resources/views/',
-    'styles' =>  __DIR__ . '/../public/css/',
-    'scripts' => __DIR__ . '/../public/js/',
-];
+new Plugin();
 ```
 
 ### Facades
 
-You can use a component as an object:
+You can use components as objects:
 
 ```php
 use Icarus\Assets\Script;
@@ -48,15 +35,12 @@ $script->add('style1-name', 'style.css', [], false, 'all')
     ->save();
 ```
 
-You can also use a component as a facade:
+You can also use some components as facades:
 
 ```php
-use Icarus\Support\Facades\Script;
-
-Script::setPath(__DIR__ . '/js')
-    ->add('style1-name', 'style.css', [], false, 'all')
-    ->add('style2-name', 'style2.css', [], false, 'all')
-    ->save();
+ Hook::register('activation', __FILE__, function () {
+        return new HookController;
+    });
 ```
 
 ## Components
@@ -64,11 +48,26 @@ Script::setPath(__DIR__ . '/js')
 ### Config
 
 ```php
+use Icarus\Config\Config;
+
+$config = new Config;
+
 // Bind a configuration file
-Config::bind(['test' => require __DIR__ . '/config/test.php']);
+$config->bind(['test' => require __DIR__ . '/config/test.php']);
 
 // Get a key from a configuration file
-Config::get('test')['key']; // Value
+$config->get('test')['key']; // Value
+```
+
+Config file example:
+
+```php
+return [
+    'name' => 'WP Icarus plugin',
+    'view' => __DIR__ . '/../resources/views/',
+    'styles' =>  __DIR__ . '/../public/css/',
+    'scripts' => __DIR__ . '/../public/js/',
+];
 ```
 
 ### View
@@ -76,17 +75,21 @@ Config::get('test')['key']; // Value
 Your view files name must end with `.view.php` (e.g. `filename.view.php`);
 
 ```php
-View::render('filename');
+use Icarus\View\View;
 
-View::render('filename', ['key' => 'value']); // With data
+$view = new View;
+$view->setPath(__DIR__ . '/views/');
+
+$view->render('filename');
+$view->render('filename', ['key' => 'value']); // With data
 ```
 
 ### Style
 
-#### Usage
-
 ```php
- Style::setPath(Config::get('plugin')['styles'])
+use Icarus\Assets\Style;
+
+(new Style)->setPath(Config::get('plugin')['styles'])
     ->add('style1-name', 'style.css', [], false, 'all')
     ->add('style2-name', 'style2.css', [], false, 'all')
     ->save('wp_enqueue_style');
@@ -94,10 +97,10 @@ View::render('filename', ['key' => 'value']); // With data
 
 ### Script
 
-#### Usage
-
 ```php
-Script::setPath(Config::get('plugin')['scripts'])
+use Icarus\Assets\Script;
+
+(new Script)->setPath(Config::get('plugin')['scripts'])
         ->add('scripts', 'scripts.js', [], false, true)
         ->add('admin', 'admin.js', [], false, true)
         ->save('wp_enqueue_script');
@@ -105,7 +108,7 @@ Script::setPath(Config::get('plugin')['scripts'])
 
 ### Menu
 
-#### Usage
+#### Facade
 
 ```php
 Menu::create(function () {
@@ -123,7 +126,7 @@ Menu::create(function () {
 
 ### Notice
 
-#### Usage
+#### Facade
 
 ```php
 // Create a notice message
@@ -135,7 +138,7 @@ Notice::display();
 
 ### Hook
 
-#### Usage
+#### Facade
 
 ```php
 Hook::register('activation', __FILE__, function () {

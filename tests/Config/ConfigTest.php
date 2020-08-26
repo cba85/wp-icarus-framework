@@ -2,15 +2,17 @@
 
 namespace Icarus\Tests\Config;
 
+use Icarus\Config\Config;
 use PHPUnit\Framework\TestCase;
-use Icarus\Support\Facades\Config;
 
 final class ConfigTest extends TestCase
 {
 
     public function testConfigValuesBinding()
     {
-        Config::bind(['test' => require __DIR__ . '/config/test.php']);
-        $this->assertSame("test", Config::get('test')['test']);
+        $configFile = require(__DIR__ . '/config/test.php');
+        $config = new Config;
+        $config->bind(['test' => $configFile]);
+        $this->assertSame("test", $config->get('test')['test']);
     }
 }

@@ -2,16 +2,16 @@
 
 namespace Icarus\Tests\Assets;
 
+use Icarus\Assets\Style;
 use PHPUnit\Framework\TestCase;
-use Icarus\Support\Facades\Style;
-use Icarus\Support\Facades\Config;
+
 
 final class StyleTest extends TestCase
 {
 
     public function testAddStyle()
     {
-        Style::setPath(Config::get('plugin')['styles'])
+        (new Style)->setPath(__DIR__ . '/css')
             ->add('style1-name', 'style.css', [], false, 'all')
             ->add('style2-name', 'style2.css', [], false, 'all')
             ->save('wp_enqueue_style');
