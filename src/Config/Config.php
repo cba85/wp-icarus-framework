@@ -33,7 +33,7 @@ class Config
      * Get configuration value of a file
      *
      * @param int|string $key
-     * @return void
+     * @return mixed
      */
     public function get($key)
     {
@@ -41,5 +41,15 @@ class Config
             throw new Exception("No {$key} is bound in the container.");
         }
         return $this->registry[$key];
+    }
+
+    /**
+     * Get all values of a configuration file
+     *
+     * @return mixed
+     */
+    public function all()
+    {
+        return $this->registry;
     }
 }
