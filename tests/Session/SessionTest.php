@@ -28,7 +28,7 @@ final class SessionTest extends TestCase
      */
     public function testPushSession()
     {
-        Session::push('test', 'test2');
+        Session::set('test', 'test2');
         $this->assertEquals('test2', Session::get('test'));
     }
 
@@ -40,7 +40,7 @@ final class SessionTest extends TestCase
     public function testRemoveSessionKey()
     {
         Session::remove('test');
-        $this->assertFalse(Session::get('test'));
+        $this->assertNull(Session::get('test'));
     }
 
     /**
@@ -51,25 +51,10 @@ final class SessionTest extends TestCase
     public function testGetSessionKey()
     {
         $value = Session::get('test');
-        $this->assertFalse($value);
+        $this->assertNull($value);
         $_SESSION['test'] = "test";
         $value = Session::get('test');
         $this->assertEquals('test', $value);
-    }
-
-    /**
-     * Flash session
-     *
-     * @return void
-     */
-    public function testFlashSession()
-    {
-        Session::push('test', 'test');
-        $value = Session::flash('error');
-        $this->assertFalse($value);
-        $value = Session::flash('test');
-        $this->assertEquals('test', $value);
-        $this->assertFalse(Session::get('test'));
     }
 
     /**
@@ -79,8 +64,8 @@ final class SessionTest extends TestCase
      */
     public function testGetAllSession()
     {
-        Session::push('test1', 'test1');
-        Session::push('test2', 'test2');
+        Session::set('test1', 'test1');
+        Session::set('test2', 'test2');
         $session = Session::all();
         $this->assertIsArray($session);
         $this->assertArrayHasKey('test1', $session);

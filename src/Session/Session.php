@@ -16,51 +16,60 @@ class Session
     }
 
     /**
-     * Check if session has key
+     * Get session
      *
-     * @param mixed $key
-     * @return boolean
-     */
-    public function has($key): bool
-    {
-        return isset($_SESSION[$key]) ? true : false;
-    }
-
-    /**
-     * Get a session
-     *
-     * @param mixed $key
-     * @return mixed
-     */
-    public function get($key)
-    {
-        if (!$this->has($key)) {
-            return false;
-        }
-        return $_SESSION[$key];
-    }
-
-    /**
-     * Push a session
-     *
-     * @param mixed $key
-     * @param mixed $value
+     * @param string $key
+     * @param string $default
      * @return void
      */
-    public function push($key, $value)
+    public function get($key, $default = null)
     {
+        if ($this->has($key)) {
+            return $_SESSION[$key];
+        }
+        return $default;
+    }
+
+    /**
+     * Set sessions
+     *
+     * @param string $key
+     * @param string $value
+     * @return void
+     */
+    public function set($key, $value = null)
+    {
+        if (is_array($key)) {
+            foreach ($key as $sessionKey => $sessionValue) {
+                $_SESSION[$sessionKey] = $sessionValue;
+            }
+            return;
+        }
         $_SESSION[$key] = $value;
     }
 
     /**
-     * Remove a session
+     * Session exists
      *
-     * @param mixed $key
-     * @return mixed
+     * @param int $key
+     * @return void
      */
-    public function remove($key)
+    public function has($key)
     {
-        unset($_SESSION[$key]);
+        return isset($_SESSION[$key]) and !empty($_SESSION[$key]);
+    }
+
+    /**
+     * Remove sessions
+     *
+     * @param int ...$key
+     * @return void
+     */
+    public function remove(...$key)
+    {
+        foreach ($key as $sessionKey) {
+            unset($_SESSION[$sessionKey]);
+        }
     }
 
     /**
@@ -71,19 +80,6 @@ class Session
     public function flush()
     {
         $_SESSION = [];
-    }
-
-    /**
-     * Flash a session value
-     *
-     * @param mixed $key
-     * @return mixed
-     */
-    public function flash($key)
-    {
-        $value = $this->get($key);
-        $this->remove($key);
-        return $value;
     }
 
     /**

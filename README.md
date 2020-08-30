@@ -129,13 +129,21 @@ Menu::create(function () {
 #### Facade
 
 ```php
-Session::push('success', "Success test");
-$exists = Session::has('success'); // True
-$value = Session::get('success'); // Success test
-Session::flash('success'); // Get and forget a session key
+Session::set('success', "Success test");
+echo Session::has('success'); // True
+echo Session::get('success'); // Success test
 Session::remove('success');
 Session::all();
 Session::flush();
+```
+
+### Flash
+
+#### Facade
+
+```php
+Flash::create('input', ['name' => 'test']);
+echo Flash::get('input')['name'];
 ```
 
 ### Notice

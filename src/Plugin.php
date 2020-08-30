@@ -2,6 +2,7 @@
 
 namespace Icarus;
 
+use Icarus\Support\Facades\Flash;
 use Icarus\Support\Container\Container;
 use Icarus\Support\Facades\Notice;
 use Icarus\Support\Facades\Facade;
@@ -36,13 +37,26 @@ class Plugin
     }
 
     /**
+     * Add and set session and flash messages
+     *
+     * @param string $flashKey
+     * @return void
+     */
+    public function withSession($flashKey = "icarus-plugin-flash")
+    {
+        Flash::setKey($flashKey)->start();
+        return $this;
+    }
+
+    /**
      * Add and set notice module
      *
      * @param string $key
      * @return void
      */
-    public function withNotice($key = "icarus-plugin")
+    public function withNotice($key = "icarus-plugin-notice")
     {
         Notice::setKey($key);
+        return $this;
     }
 }

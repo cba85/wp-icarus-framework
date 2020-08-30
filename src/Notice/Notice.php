@@ -58,7 +58,7 @@ class Notice
             'type' => $type,
             'message' => $message,
         ];
-        Session::push($this->key, $notice);
+        Session::set($this->key, $notice);
     }
 
     /**
