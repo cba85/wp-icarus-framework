@@ -2,6 +2,7 @@
 
 namespace Icarus\Notice;
 
+use Icarus\Support\Facades\Session;
 use Icarus\View\View;
 
 /**
@@ -53,8 +54,11 @@ class Notice
      */
     public function create($type, $message)
     {
-        $_SESSION[$this->key]['type'] = $type;
-        $_SESSION[$this->key]['message'] = $message;
+        $notice = [
+            'type' => $type,
+            'message' => $message,
+        ];
+        Session::push($this->key, $notice);
     }
 
     /**
@@ -64,12 +68,12 @@ class Notice
      */
     public function display()
     {
-        if (empty($_SESSION[$this->key])) {
+        if (!Session::has($this->key)) {
             return null;
         }
 
-        $notice = $_SESSION[$this->key];
-        unset($_SESSION[$this->key]);
+        $notice = Session::get($this->key);
+        Session::remove($this->key);
 
         $viewPath = dirname(__FILE__) . "/views/";
 

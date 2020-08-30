@@ -124,6 +124,20 @@ Menu::create(function () {
 });
 ```
 
+### Session
+
+#### Facade
+
+```php
+Session::push('success', "Success test");
+$exists = Session::has('success'); // True
+$value = Session::get('success'); // Success test
+Session::flash('success'); // Get and forget a session key
+Session::remove('success');
+Session::all();
+Session::flush();
+```
+
 ### Notice
 
 #### Facade
