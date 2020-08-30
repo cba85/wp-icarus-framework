@@ -4,6 +4,7 @@ namespace Icarus\Tests\Notice;
 
 use PHPUnit\Framework\TestCase;
 use Icarus\Support\Facades\Notice;
+use Icarus\Support\Facades\Session;
 
 final class NoticeTest extends TestCase
 {
@@ -12,33 +13,38 @@ final class NoticeTest extends TestCase
 
     public function testNoticeTypeCreation()
     {
-        Notice::setKey($this->key)->create('success', "Success test");
-        $this->assertArrayHasKey("type", $_SESSION[$this->key]);
+        Notice::create('success', "Success test");
+        $this->assertArrayHasKey("type", $_SESSION[$this->key]['notice']);
     }
 
     public function testNoticeMessageCreation()
     {
-        Notice::setKey($this->key)->create('success', "Success test");
-        $this->assertArrayHasKey("message", $_SESSION[$this->key]);
+        Notice::create('success', "Success test");
+        $this->assertArrayHasKey("message", $_SESSION[$this->key]['notice']);
     }
 
     public function testNoticeCorrectTypeCreation()
     {
         $type = "success";
         Notice::create($type, "Success test");
-        $this->assertEquals($type, $_SESSION[$this->key]['type']);
+        $this->assertArrayHasKey("type", $_SESSION[$this->key]['notice']);
+        $this->assertArrayHasKey("message", $_SESSION[$this->key]['notice']);
+        $this->assertEquals($type, $_SESSION[$this->key]['notice']['type']);
     }
 
     public function testNoticeCorrectMessageCreation()
     {
         $message = "Success test";
         Notice::create("success", $message);
-        $this->assertEquals($message, $_SESSION[$this->key]['message']);
+        $this->assertArrayHasKey("type", $_SESSION[$this->key]['notice']);
+        $this->assertArrayHasKey("message", $_SESSION[$this->key]['notice']);
+        $this->assertEquals($message, $_SESSION[$this->key]['notice']['message']);
     }
 
     public function testNoticeRemoveSessionAfterDisplay()
     {
         Notice::display();
-        $this->assertArrayNotHasKey($this->key, $_SESSION);
+        //print_r($_SESSION);
+        $this->assertArrayNotHasKey('notice', $_SESSION[$this->key]);
     }
 }

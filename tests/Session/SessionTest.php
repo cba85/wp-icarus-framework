@@ -14,9 +14,10 @@ final class SessionTest extends TestCase
      */
     public function testIfSessionExists()
     {
+        $_SESSION = [];
         $exists = Session::has('test');
         $this->assertFalse($exists);
-        $_SESSION['test'] = "test";
+        Session::set('test', 'test');
         $exists = Session::has('test');
         $this->assertTrue($exists);
     }
@@ -52,7 +53,7 @@ final class SessionTest extends TestCase
     {
         $value = Session::get('test');
         $this->assertNull($value);
-        $_SESSION['test'] = "test";
+        Session::set('test', 'test');
         $value = Session::get('test');
         $this->assertEquals('test', $value);
     }
@@ -82,6 +83,6 @@ final class SessionTest extends TestCase
     public function testFlushSessions()
     {
         Session::flush();
-        $this->assertEmpty($_SESSION);
+        $this->assertEmpty(Session::all());
     }
 }

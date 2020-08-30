@@ -137,15 +137,6 @@ Session::all();
 Session::flush();
 ```
 
-### Flash
-
-#### Facade
-
-```php
-Flash::create('input', ['name' => 'test']);
-echo Flash::get('input')['name'];
-```
-
 ### Notice
 
 #### Facade

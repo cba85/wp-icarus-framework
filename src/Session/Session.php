@@ -8,11 +8,38 @@ namespace Icarus\Session;
 class Session
 {
     /**
+     * Session key
+     */
+    protected $key;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         !@session_start();
+    }
+
+    /**
+     * Get session key
+     *
+     * @return string
+     */
+    public function getKey()
+    {
+        return $this->key;
+    }
+
+    /**
+     * Set session key
+     *
+     * @param string $key
+     * @return void
+     */
+    public function setKey($key)
+    {
+        $this->key = $key;
+        return $this;
     }
 
     /**
@@ -25,7 +52,7 @@ class Session
     public function get($key, $default = null)
     {
         if ($this->has($key)) {
-            return $_SESSION[$key];
+            return $_SESSION[$this->key][$key];
         }
         return $default;
     }
@@ -41,11 +68,11 @@ class Session
     {
         if (is_array($key)) {
             foreach ($key as $sessionKey => $sessionValue) {
-                $_SESSION[$sessionKey] = $sessionValue;
+                $_SESSION[$this->key][$sessionKey] = $sessionValue;
             }
             return;
         }
-        $_SESSION[$key] = $value;
+        $_SESSION[$this->key][$key] = $value;
     }
 
     /**
@@ -56,7 +83,7 @@ class Session
      */
     public function has($key)
     {
-        return isset($_SESSION[$key]) and !empty($_SESSION[$key]);
+        return isset($_SESSION[$this->key][$key]) and !empty($_SESSION[$this->key][$key]);
     }
 
     /**
@@ -68,7 +95,7 @@ class Session
     public function remove(...$key)
     {
         foreach ($key as $sessionKey) {
-            unset($_SESSION[$sessionKey]);
+            unset($_SESSION[$this->key][$sessionKey]);
         }
     }
 
@@ -79,7 +106,7 @@ class Session
      */
     public function flush()
     {
-        $_SESSION = [];
+        $_SESSION[$this->key] = [];
     }
 
     /**
@@ -89,6 +116,6 @@ class Session
      */
     public function all()
     {
-        return $_SESSION;
+        return $_SESSION[$this->key];
     }
 }

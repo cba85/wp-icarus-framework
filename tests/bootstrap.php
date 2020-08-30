@@ -12,4 +12,4 @@ require __DIR__ . '/spies/wordpress.php';
 $wpdb = new Wpdb;
 
 $config = __DIR__ . '/plugin.php';
-(new Plugin)->withNotice()->withSession();
+(new Plugin)->withSession();

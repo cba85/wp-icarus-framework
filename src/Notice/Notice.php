@@ -2,8 +2,8 @@
 
 namespace Icarus\Notice;
 
-use Icarus\Support\Facades\Session;
 use Icarus\View\View;
+use Icarus\Support\Facades\Session;
 
 /**
  * Session notice flash message
@@ -11,9 +11,11 @@ use Icarus\View\View;
 class Notice
 {
     /**
-     * Session key for flash notice
+     * Key notice
+     *
+     * @var string
      */
-    protected $key;
+    protected $key = 'notice';
 
     /**
      * Constructor
@@ -21,28 +23,6 @@ class Notice
     public function __construct()
     {
         !@session_start();
-    }
-
-    /**
-     * Get notice session key
-     *
-     * @return string
-     */
-    public function getKey()
-    {
-        return $this->key;
-    }
-
-    /**
-     * Set notice session key
-     *
-     * @param string $key
-     * @return void
-     */
-    public function setKey($key)
-    {
-        $this->key = $key;
-        return $this;
     }
 
     /**
@@ -73,7 +53,7 @@ class Notice
         }
 
         $notice = Session::get($this->key);
-        Session::remove($this->key);
+        Session::remove('notice');
 
         $viewPath = dirname(__FILE__) . "/views/";
 
