@@ -8,6 +8,14 @@ namespace Icarus\Session;
 class Session
 {
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        !@session_start();
+    }
+
+    /**
      * Check if session has key
      *
      * @param mixed $key
