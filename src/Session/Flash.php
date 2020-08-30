@@ -54,9 +54,6 @@ class Flash
     public function start()
     {
         $this->attributes = Session::get($this->key);
-        if (Session::has($this->key)) {
-            Session::remove($this->key);
-        }
         Session::set($this->key, []);
     }
 
