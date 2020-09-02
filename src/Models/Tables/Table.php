@@ -12,6 +12,13 @@ use Icarus\Models\Model;
 abstract class Table extends Model implements TableInterface
 {
     /**
+     * Table
+     *
+     * @var string
+     */
+    protected $table;
+
+    /**
      * ID
      *
      * @var int
