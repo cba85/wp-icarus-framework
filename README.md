@@ -165,9 +165,90 @@ Hook::register('activation', __FILE__, function () {
 
 ### Table
 
+```php
+<?php
+
+namespace Icarus\Plugin\Models;
+
+use Icarus\Models\Tables\Table;
+
+class Post extends Table
+{
+    public function table()
+    {
+        global $wpdb;
+
+        return $wpdb->prefix . 'posts';
+    }
+
+    public function key()
+    {
+        return 'ID';
+    }
+
+    public function fields()
+    {
+        return [];
+    }
+}
+```
+
 ### Option
 
+```php
+<?php
+
+namespace Icarus\Plugin\Models;
+
+use Icarus\Models\Tables\Option;
+
+class WoocommerceOption extends Option
+{
+    public function prefix()
+    {
+        return 'woocommerce_';
+    }
+
+    public function fields()
+    {
+        return [
+            'status',
+        ];
+    }
+}
+```
+
 ### Meta
+
+```php
+<?php
+
+namespace Icarus\Plugin\Models;
+
+use Icarus\Models\Tables\Meta;
+
+class ShippingMeta extends Meta
+{
+    public function prefix()
+    {
+        return '_shipping_';
+    }
+
+    public function fields()
+    {
+        return [
+            'first_name',
+            'last_name',
+            'company',
+            'address_1',
+            'address_2',
+            'city',
+            'postcode',
+            'country',
+        ];
+    }
+}
+```
 
 ## Testing
 
