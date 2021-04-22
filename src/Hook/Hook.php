@@ -11,13 +11,13 @@ class Hook
 {
     /**
      * Available hook actions
+     * Uninstall hook is not possible
      *
      * @var array
      */
     protected $availableHooks = [
         'activation',
-        'deactivation',
-        'uninstall'
+        'deactivation'
     ];
 
     /**
