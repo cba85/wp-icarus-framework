@@ -161,6 +161,16 @@ Hook::register('activation', __FILE__, function () {
 });
 ```
 
+### Admin
+
+#### Facade
+
+```php
+Admin::action('process_test', function () {
+    return $this->save();
+});
+```
+
 ## Models
 
 ### Table
