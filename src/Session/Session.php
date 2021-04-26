@@ -96,6 +96,10 @@ class Session
      */
     public function remove(...$key)
     {
+        if (session_status() != PHP_SESSION_ACTIVE) {
+            return;
+        }
+        
         foreach ($key as $sessionKey) {
             unset($_SESSION[$this->key][$sessionKey]);
         }
