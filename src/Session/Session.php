@@ -17,7 +17,9 @@ class Session
      */
     public function __construct()
     {
-        !@session_start();
+        if (session_status() == PHP_SESSION_DISABLED) {
+            session_start();
+        }
     }
 
     /**
